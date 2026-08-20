@@ -1,8 +1,10 @@
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 import * as Joi from 'joi';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -11,6 +13,9 @@ import * as Joi from 'joi';
       validationSchema: Joi.object({
         DATABASE_URL: Joi.string().required(),
         PORT: Joi.number().default(3000),
+        JWT_SECRET: Joi.string().required(),
+        JWT_EXPIRES_IN: Joi.string().default('15m'),
+        REFRESH_EXPIRES_MS: Joi.number().default(604800000),
       }),
     }),
     TypeOrmModule.forRootAsync({
@@ -24,7 +29,13 @@ import * as Joi from 'joi';
       }),
     }),
     UsersModule,
+    AuthModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    },
+  ],
 })
 export class AppModule {}

@@ -25,4 +25,12 @@ export class UsersService {
       throw error;
     }
   }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return await this.usersRepository.findByEmail(email);
+  }
+
+  async findById(id: string): Promise<User | null> {
+    return await this.usersRepository.findById(id);
+  }
 }
