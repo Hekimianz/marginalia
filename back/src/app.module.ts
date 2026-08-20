@@ -25,7 +25,6 @@ import * as Joi from 'joi';
     }),
     UsersModule,
   ],
-  controllers: [],
   providers: [],
 })
 export class AppModule {}
