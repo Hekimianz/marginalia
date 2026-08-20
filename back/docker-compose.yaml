@@ -8,7 +8,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - marginalia-pgdata:/var/lib/postgresql/data
+      - marginalia-pgdata:/var/lib/postgresql
 
 volumes:
   marginalia-pgdata:
