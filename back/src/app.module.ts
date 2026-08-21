@@ -5,6 +5,8 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import * as Joi from 'joi';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ReadingSessionModule } from './reading-session/reading-session.module';
+import { BooksModule } from './books/books.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     }),
     UsersModule,
     AuthModule,
+    ReadingSessionModule,
+    BooksModule,
   ],
   providers: [
     {
