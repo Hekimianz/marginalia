@@ -1,0 +1,13 @@
+Tasks:
+   
+Archive:
+ ✔ Create single find method for Reading Sessions @done(26-08-22 12:19)
+ ✔ Create single find method for Books @started(26-08-22 12:13) @done(26-08-22 12:15) @lasted(2m57s)
+ ✔ Fix: Updates should only work on own users sessions @started(26-08-22 12:19) @done(26-08-22 12:22) @lasted(3m45s)
+ ✔ Fix: Deletes should only work on own users sessions @started(26-08-22 12:22) @done(26-08-22 12:26) @lasted(4m26s)
+ ✔ Verify protection on routes @started(26-08-22 12:26) @done(26-08-22 12:27) @lasted(1m8s)
+ ✔ Create Logout method @started(26-08-22 12:27) @done(26-08-22 12:38) @lasted(11m5s)
+ ✔ Create delete method for Reading Sessions @started(26-08-22 12:06) @done(26-08-22 12:12) @lasted(6m48s)
+ ✔ Verify (Fix if necessary) if all controllers/services/repos are using dtos @started(26-08-22 11:57) @done(26-08-22 12:03) @lasted(6m14s)
+ ✔ Create update method for Reading Sessions @started(26-08-22 11:24) @done(26-08-22 11:56) @lasted(32m16s)
+ ✘ Create update method for Books @started(26-08-22 11:22) @cancelled(26-08-22 11:23) @wasted(1m50s)

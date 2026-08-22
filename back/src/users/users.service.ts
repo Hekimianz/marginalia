@@ -3,18 +3,24 @@ import { UsersRepository } from './users.repository';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { QueryFailedError } from 'typeorm';
+import { CreateUserDto } from './dtos/create-user.dto';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  async create(email: string, password: string): Promise<User> {
-    const userExists = await this.usersRepository.findByEmail(email);
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const userExists = await this.usersRepository.findByEmail(
+      createUserDto.email,
+    );
     if (userExists) throw new ConflictException('Email already in use');
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
     try {
-      return await this.usersRepository.create(email, hashedPassword);
+      return await this.usersRepository.create(
+        createUserDto.email,
+        hashedPassword,
+      );
     } catch (error) {
       if (
         error instanceof QueryFailedError &&
