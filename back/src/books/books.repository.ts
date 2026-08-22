@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './entities/book.entity';
 import { Repository } from 'typeorm';
+import { CreateBookDto } from './dtos/create-book.dto';
 
 @Injectable()
 export class BooksRepository {
@@ -9,8 +10,8 @@ export class BooksRepository {
     @InjectRepository(Book) private readonly repo: Repository<Book>,
   ) {}
 
-  async create(title: string, author: string): Promise<Book> {
-    return await this.repo.save(this.repo.create({ title, author }));
+  async create(createBookDto: CreateBookDto): Promise<Book> {
+    return await this.repo.save(this.repo.create(createBookDto));
   }
 
   async fetchAll(): Promise<Book[]> {

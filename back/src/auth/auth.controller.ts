@@ -14,10 +14,7 @@ export class AuthController {
   async login(
     @Body() loginUserDto: LoginUserDto,
   ): Promise<{ access_token: string }> {
-    const user = await this.authService.validateUser(
-      loginUserDto.email,
-      loginUserDto.password,
-    );
+    const user = await this.authService.validateUser(loginUserDto);
     return await this.authService.login(user);
   }
 
@@ -31,6 +28,15 @@ export class AuthController {
   async refresh(
     @Body() refreshTokenDto: RefreshTokenDto,
   ): Promise<{ refresh_token: string }> {
-    return await this.authService.refresh(refreshTokenDto.refresh_token);
+    return await this.authService.refresh(refreshTokenDto);
+  }
+
+  @Post('logout')
+  @UseGuards(JwtAuthGuard)
+  async logout(
+    @CurrentUser() user: User,
+    @Body() refreshTokenDto: RefreshTokenDto,
+  ): Promise<void> {
+    await this.authService.logout(user, refreshTokenDto);
   }
 }

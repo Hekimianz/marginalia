@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateSessionDto } from './dtos/create-session.dto';
 import { User } from 'src/users/entities/user.entity';
 import { Book } from 'src/books/entities/book.entity';
+import { UpdateReadingSessionDto } from './dtos/update-session.dto';
 
 @Injectable()
 export class ReadingSessionRepository {
@@ -31,5 +32,20 @@ export class ReadingSessionRepository {
 
   async findAll(): Promise<ReadingSession[]> {
     return await this.repo.find({ relations: ['user'] });
+  }
+
+  async updateById(
+    sessionId: string,
+    updateReadingSession: UpdateReadingSessionDto,
+  ): Promise<ReadingSession> {
+    const session = await this.repo.preload({
+      id: sessionId,
+      ...updateReadingSession,
+    });
+    return await this.repo.save(session!);
+  }
+
+  async delete(session: ReadingSession): Promise<void> {
+    await this.repo.remove(session);
   }
 }

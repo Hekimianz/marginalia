@@ -7,6 +7,8 @@ import { ConfigService } from '@nestjs/config';
 import { RefreshTokenRepository } from './refreshToken.repository';
 import { createHash, randomBytes } from 'crypto';
 import { RefreshToken } from './entities/refresh-token.entity';
+import { LoginUserDto } from './dtos/login-user.dto';
+import { RefreshTokenDto } from './dtos/refresh-token.dto';
 
 @Injectable()
 export class AuthService {
@@ -19,10 +21,10 @@ export class AuthService {
 
   DUMMY_HASH = '$2b$10$GgaoIINZLLlhmOI2N5gsNO07UUUj0qv0KRqIpFGABBcKA5353HtIu';
 
-  async validateUser(email: string, password: string): Promise<User> {
-    const user = await this.usersService.findByEmail(email);
+  async validateUser(loginUserDto: LoginUserDto): Promise<User> {
+    const user = await this.usersService.findByEmail(loginUserDto.email);
     const passwordValid = await bcrypt.compare(
-      password,
+      loginUserDto.password,
       user ? user.password : this.DUMMY_HASH,
     );
 
@@ -53,9 +55,11 @@ export class AuthService {
   }
 
   async refresh(
-    rawToken: string,
+    refreshTokenDto: RefreshTokenDto,
   ): Promise<{ access_token: string; refresh_token: string }> {
-    const hashedToken = createHash('sha256').update(rawToken).digest('hex');
+    const hashedToken = createHash('sha256')
+      .update(refreshTokenDto.refresh_token)
+      .digest('hex');
     const foundToken = await this.refreshTokenRepo.findByHash(hashedToken);
     if (!foundToken) throw new UnauthorizedException('Invalid token');
     if (foundToken.expiresAt < new Date()) {
@@ -67,5 +71,18 @@ export class AuthService {
     const access_token = await this.jwtService.signAsync(payload);
     const refresh_token = await this.createRefreshToken(foundToken.user);
     return { access_token, refresh_token };
+  }
+
+  async logout(user: User, refreshTokenDto: RefreshTokenDto): Promise<void> {
+    const hashedToken = createHash('sha256')
+      .update(refreshTokenDto.refresh_token)
+      .digest('hex');
+    const token = await this.refreshTokenRepo.findByHash(hashedToken);
+    if (!token) return;
+    if (token.user.id !== user.id)
+      throw new UnauthorizedException(
+        'You are not authorized to do this action',
+      );
+    await this.refreshTokenRepo.delete(token);
   }
 }
