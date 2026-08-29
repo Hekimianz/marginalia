@@ -1,0 +1,61 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* raw brand palette — the literal values */
+  --cream: #faf9f5;
+  --ink: #1a1a1a;
+  --red-deep: #a32d2d; /* accent, light mode */
+  --red-bright: #e24b4a; /* accent, dark mode */
+  --gray-text: #5f5e5a; /* secondary text, light */
+  --hairline: #d8d6ce; /* borders, light */
+  --dark-bg: #181818; /* page bg, dark */
+  --dark-surface: #202020; /* raised surface, dark */
+  --dark-hairline: #33322e;
+  --dark-text: #e8e6de; /* primary text, dark */
+  --dark-text-muted: #9c9a92;
+
+  /* semantic tokens: Light mode values */
+  --color-background: var(--cream);
+  --color-foreground: var(--ink);
+  --color-accent: var(--red-deep);
+  --color-muted: var(--gray-text);
+  --color-border: var(--hairline);
+  --color-card: #ffffff;
+}
+
+.dark {
+  /* semantic tokens — DARK mode values */
+  --color-background: var(--dark-bg);
+  --color-foreground: var(--dark-text);
+  --color-accent: var(--red-bright);
+  --color-muted: var(--dark-text-muted);
+  --color-border: var(--dark-hairline);
+  --color-card: var(--dark-surface);
+}
+
+@theme inline {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --color-accent: var(--color-accent);
+  --color-muted: var(--color-muted);
+  --color-border: var(--color-border);
+  --color-card: var(--color-card);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-fraunces);
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+.font-fraunces {
+  font-family: var(--font-fraunces), serif;
+}
+
+.font-inter {
+  font-family: var(--font-inter), serif;
+}
