@@ -31,7 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full bg-backgreound  font-sans transition-bg">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
-          <div className="fixed top-4 right-4 z-50">
+          <div className="fixed bottom-4 right-4 z-50">
             <ThemeSwitcher />
           </div>
         </ThemeProvider>
