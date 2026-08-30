@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Fraunces } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
-import ThemeSwitcher from "../components/theme-switcher";
+import Link from "next/link";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,12 +28,22 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       className={`${fraunces.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-backgreound  font-sans transition-bg">
+      <body className="min-h-full bg-backgreound font-sans transition-bg">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
-          <div className="fixed bottom-4 right-4 z-50">
-            <ThemeSwitcher />
-          </div>
+          <footer className="mx-auto flex justify-between text-xs md:text-sm tracking-wide font-muted font-[300] px-2 py-2 max-w-3xl">
+            <span>Marginalia</span>
+            <span>
+              Built with love by{" "}
+              <Link
+                className="hover:text-accent transition-all"
+                target="_blank"
+                href="https://github.com/Hekimianz"
+              >
+                Aram Hekimian
+              </Link>
+            </span>
+          </footer>
         </ThemeProvider>
       </body>
     </html>

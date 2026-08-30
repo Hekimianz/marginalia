@@ -1,11 +1,15 @@
 "use client";
 
 import { Moon, Sun } from "@gravity-ui/icons";
-import { Switch } from "@heroui/react";
+import { Button } from "@heroui/react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
-export default function ThemeSwitcher() {
+export default function ThemeSwitcher({
+  className = "",
+}: {
+  className?: string;
+}) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -14,31 +18,18 @@ export default function ThemeSwitcher() {
     return () => cancelAnimationFrame(handle);
   }, []);
 
-  if (!mounted) return <div className="h-10 w-16" />;
+  if (!mounted) return <div className={`size-9 ${className}`} />;
 
   const isDark = theme === "dark";
 
   return (
-    <Switch
-      size="lg"
-      isSelected={isDark}
-      onChange={(isSelected: boolean) =>
-        setTheme(isSelected ? "dark" : "light")
-      }
+    <Button
+      isIconOnly
+      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      onPress={() => setTheme(isDark ? "light" : "dark")}
+      className={`rounded-xs size-9 bg-transparent text-foreground border-border border-2 hover:text-accent hover:border-accent transition-all ${className}`}
     >
-      <Switch.Content>
-        <Switch.Control className="bg-muted">
-          <Switch.Thumb className="bg-background">
-            <Switch.Icon>
-              {isDark ? (
-                <Sun className="size-3 text-accent  opacity-100" />
-              ) : (
-                <Moon className="size-3 text-accent opacity-70" />
-              )}
-            </Switch.Icon>
-          </Switch.Thumb>
-        </Switch.Control>
-      </Switch.Content>
-    </Switch>
+      {isDark ? <Sun className="size-4" /> : <Moon className="size-4" />}
+    </Button>
   );
 }

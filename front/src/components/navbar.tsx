@@ -39,7 +39,7 @@ export default function Navbar() {
         </button>
         <NavbarDesktop />
       </div>
-      {isOpen && <NavbarMobileMenu />}
+      {isOpen && <NavbarMobileMenu onNavigate={() => setIsOpen(false)} />}
     </nav>
   );
 }

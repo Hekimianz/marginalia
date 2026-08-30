@@ -1,15 +1,26 @@
 import { Button } from "@heroui/react";
 import Link from "next/link";
+import ThemeSwitcher from "./theme-switcher";
 
 export default function NavbarDesktop() {
   return (
     <div className="hidden md:flex items-center">
       <ul className="flex gap-4 text-start items-center w-full font-light">
-        <li className="hover:text-accent cursor-pointer hover:font-[500] transition-all transition-all">
-          The loop
+        <li>
+          <a
+            href="#loop"
+            className="hover:text-accent cursor-pointer hover:font-[500] transition-all"
+          >
+            The loop
+          </a>
         </li>
-        <li className="hover:text-accent cursor-pointer hover:font-[500] transition-all">
-          Questions
+        <li>
+          <a
+            href="#questions"
+            className="hover:text-accent cursor-pointer hover:font-[500] transition-all"
+          >
+            Questions
+          </a>
         </li>
         <Link href="/login">
           <Button className="rounded-xs bg-transparent text-foreground border-border border-2 hover:text-accent transition-text">
@@ -21,6 +32,7 @@ export default function NavbarDesktop() {
             Sign up
           </Button>
         </Link>
+        <ThemeSwitcher />
       </ul>
     </div>
   );

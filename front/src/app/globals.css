@@ -15,7 +15,7 @@
   --dark-hairline: #33322e;
   --dark-text: #e8e6de; /* primary text, dark */
   --dark-text-muted: #9c9a92;
-
+  --dark-darker: #101010;
   /* semantic tokens: Light mode values */
   --color-background: var(--cream);
   --color-foreground: var(--ink);
@@ -46,10 +46,24 @@
   --font-serif: var(--font-fraunces);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-sans);
   background: var(--color-background);
   color: var(--color-foreground);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-timing-function: ease;
+    transition-duration: 200ms;
+  }
 }
 
 .font-fraunces {
