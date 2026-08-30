@@ -1,50 +1,65 @@
+import PasswordToggle from "@/src/components/password-toggle";
+import { ThemedImage } from "@/src/components/themed-image";
+import { ArrowLeft } from "@gravity-ui/icons";
 import { Button, Input, Label } from "@heroui/react";
 import Link from "next/link";
+
 export default function LoginPage() {
   return (
-    <div className="flex flex-col justify-center items-center pt-12 mx-8 min-h-screen">
-      <h1 className="font-fraunces text-4xl italic font-bold border-b border-accent">
-        Marginalia<span className="text-accent">.</span>
-      </h1>
-      <p className="mt-12 font-fraunces text-2xl  text-center px-2">
-        Welcome back to your library.
-      </p>
-      <form
-        className="bg-card flex flex-col gap-4 px-10 py-8 rounded mt-8 w-full max-w-sm"
-        noValidate
-      >
-        <Label htmlFor="email">Email</Label>
-        <Input
-          name="email"
-          type="email"
-          id="email"
-          placeholder="albertcamus@gmail.com"
-          className="font-fraunces text-foreground placeholder-muted bg-background hover:bg-card hover:ring-2 hover:ring-border outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-border transition-all"
+    <div className="flex flex-col min-h-screen md:items-center md:justify-center md:bg-background p-0 md:p-6">
+      <section className="flex-1 w-full bg-card p-6 md:flex-none md:max-w-md md:rounded-xs md:border md:border-border ">
+        <ThemedImage
+          lightSrc="/icon-light.svg"
+          darkSrc="/icon-dark.svg"
+          alt="icon"
+          width={45}
+          height={45}
+          loading="eager"
+          className="w-[45px] h-[45px]"
         />
-        <Label htmlFor="password">Password</Label>
-        <Input
-          name="password"
-          id="password"
-          placeholder="************"
-          type="password"
-          className="font-fraunces text-foreground placeholder-muted bg-background hover:bg-card hover:ring-2 hover:ring-border outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-border transition-all"
-        />
-        <Button
-          type="submit"
-          className="mt-2 w-full self-center bg-muted hover:bg-accent focus:bg-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-border transition-all"
-        >
-          Log In
-        </Button>
-        <p className="mt-2 font-light self-center text-center">
+
+        <h1 className="mt-8 text-2xl font-fraunces">Welcome back.</h1>
+        <span className="mt-2 block font-light text-muted">
+          Pick up where your notes left off.
+        </span>
+
+        <form className="flex mt-8 flex-col gap-4" noValidate>
+          <div className="flex flex-col gap-2">
+            <Label>Email</Label>
+            <Input
+              type="email"
+              placeholder="albertcamus@gmail.com"
+              className="shadow-none rounded-xs bg-card border-border border-2 text-foreground placeholder:text-muted focus:ring-accent focus:ring-2 focus:border-transparent"
+            />
+          </div>
+
+          <PasswordToggle />
+
+          <Button
+            type="submit"
+            className="bg-accent rounded-xs w-full justify-start py-6 hover:brightness-90 transition-all cursor-pointer"
+          >
+            Log in
+          </Button>
+        </form>
+
+        <p className="font-light text-muted mt-8">
           New here?{" "}
           <Link
             href="/sign-up"
-            className="text-accent hover:font-normal transition-all"
+            className="text-accent/80 underline hover:text-accent transition-all"
           >
-            Sign up
+            Create an account
           </Link>
         </p>
-      </form>
+
+        <Link
+          href="/"
+          className="inline-flex mt-8 gap-2 items-center text-muted font-light hover:text-foreground w-fit transition-colors cursor-pointer"
+        >
+          <ArrowLeft className="size-4" /> Back home
+        </Link>
+      </section>
     </div>
   );
 }
