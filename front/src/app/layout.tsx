@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Fraunces } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
@@ -21,6 +21,12 @@ export const metadata: Metadata = {
   description: "Notes in the margin, worth sharing.",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -31,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full bg-backgreound font-sans transition-bg">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
-          <footer className="mx-auto flex justify-between text-xs md:text-sm tracking-wide font-muted font-[300] px-2 py-2 max-w-3xl">
+          <footer className="mx-auto flex justify-between text-sm md:text-sm tracking-wide font-muted font-[300] px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] max-w-3xl">
             <span>Marginalia</span>
             <span>
               Built with love by{" "}

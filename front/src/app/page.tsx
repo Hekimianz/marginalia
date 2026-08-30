@@ -35,13 +35,13 @@ export default function Home() {
           </p>
           <div className="flex flex-col gap-4 w-full md:w-[50%]">
             <Link href="/sign-up">
-              <Button className="group rounded-xs bg-accent w-full justify-start md:p-6 lg:p-8 text-sm md:text-base lg:text-lg transition-transform duration-150 active:scale-[0.98]">
+              <Button className="group rounded-xs bg-accent w-full justify-start md:p-6 lg:p-8 text-base md:text-lg lg:text-xl transition-transform duration-150 active:scale-[0.98]">
                 Create an account{" "}
                 <ArrowRight className="inline-block transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </Link>
             <Link href="/login">
-              <Button className="rounded-xs text-foreground w-full bg-transparent justify-start border-border border-2 md:p-6 lg:p-8 text-sm md:text-base lg:text-lg transition-all duration-150 hover:border-accent hover:text-accent active:scale-[0.98]">
+              <Button className="rounded-xs text-foreground w-full bg-transparent justify-start border-border border-2 md:p-6 lg:p-8 text-base md:text-lg lg:text-xl transition-all duration-150 hover:border-accent hover:text-accent active:scale-[0.98]">
                 I already have an account
               </Button>
             </Link>
@@ -71,7 +71,7 @@ export default function Home() {
             <h3 className="font-fraunces text-lg leading-snug md:text-xl md:leading-snug lg:text-2xl lg:leading-snug mt-5 transition-colors duration-300 group-hover:text-accent">
               Start a book
             </h3>
-            <p className="text-muted text-xs leading-relaxed md:text-sm md:leading-relaxed lg:text-base lg:leading-relaxed mt-3">
+            <p className="text-muted text-sm leading-relaxed md:text-base md:leading-relaxed lg:text-lg lg:leading-relaxed mt-3">
               Pick something and set it as Reading Now. Several at once is fine,
               and the app never forces you down to one title.
             </p>
@@ -87,7 +87,7 @@ export default function Home() {
             <h3 className="font-fraunces text-lg leading-snug md:text-xl md:leading-snug lg:text-2xl lg:leading-snug mt-5 transition-colors duration-300 group-hover:text-accent">
               Capture as you go
             </h3>
-            <p className="text-muted text-xs leading-relaxed md:text-sm md:leading-relaxed lg:text-base lg:leading-relaxed mt-3">
+            <p className="text-muted text-sm leading-relaxed md:text-base md:leading-relaxed lg:text-lg lg:leading-relaxed mt-3">
               Chapter notes while the thought is fresh. Underlines for passages
               worth keeping. A synthesis you keep refining.
             </p>
@@ -103,7 +103,7 @@ export default function Home() {
             <h3 className="font-fraunces text-lg leading-snug md:text-xl md:leading-snug lg:text-2xl lg:leading-snug mt-5 transition-colors duration-300 group-hover:text-accent">
               Close the loop
             </h3>
-            <p className="text-muted text-xs leading-relaxed md:text-sm md:leading-relaxed lg:text-base lg:leading-relaxed mt-3">
+            <p className="text-muted text-sm leading-relaxed md:text-base md:leading-relaxed lg:text-lg lg:leading-relaxed mt-3">
               Finish the book, post a review with a rating. The verdict sits at
               the top of the book&apos;s page.
             </p>
@@ -119,7 +119,7 @@ export default function Home() {
             <h3 className="font-fraunces text-lg leading-snug md:text-xl md:leading-snug lg:text-2xl lg:leading-snug mt-5 transition-colors duration-300 group-hover:text-accent">
               Share & connect
             </h3>
-            <p className="text-muted text-xs leading-relaxed md:text-sm md:leading-relaxed lg:text-base lg:leading-relaxed mt-3">
+            <p className="text-muted text-sm leading-relaxed md:text-base md:leading-relaxed lg:text-lg lg:leading-relaxed mt-3">
               Followers see each new note and comment on it. You find readers
               through the books you share.
             </p>
@@ -149,12 +149,12 @@ export default function Home() {
         </Reveal>
         <Reveal delay={150} className="flex flex-col gap-2">
           <Link href="/sign-up">
-            <Button className="group rounded-xs bg-accent w-full justify-start md:p-6 lg:p-8 text-sm md:text-base lg:text-lg transition-transform duration-150 active:scale-[0.98]">
+            <Button className="group rounded-xs bg-accent w-full justify-start md:p-6 lg:p-8 text-base md:text-lg lg:text-xl transition-transform duration-150 active:scale-[0.98]">
               Create an account{" "}
               <ArrowRight className="inline-block transition-transform duration-300 group-hover:translate-x-1" />
             </Button>
           </Link>
-          <p className="text-muted text-xs md:text-sm lg:text-base">
+          <p className="text-muted text-sm md:text-base lg:text-lg">
             Takes a minute. Bring one book you&apos;re in the middle of.
           </p>
         </Reveal>
