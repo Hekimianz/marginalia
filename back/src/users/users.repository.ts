@@ -20,8 +20,25 @@ export class UsersRepository {
     return await this.repo.findOne({ where: { id } });
   }
 
-  async create(email: string, password: string): Promise<User> {
-    const user = this.repo.create({ email, password });
+  async create(
+    firstName: string,
+    lastName: string,
+    username: string,
+    email: string,
+    password: string,
+  ): Promise<User> {
+    const user = this.repo.create({
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+    });
     return await this.repo.save(user);
+  }
+
+  async changeAvatar(id: string, url: string): Promise<User> {
+    const user = await this.repo.preload({ id, avatar: url });
+    return await this.repo.save(user!);
   }
 }

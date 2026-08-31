@@ -3,8 +3,17 @@
 import { Eye, EyeSlash } from "@gravity-ui/icons";
 import { Button, InputGroup, Label, TextField } from "@heroui/react";
 import { useState } from "react";
+import { UseFormRegisterReturn } from "react-hook-form";
 
-export default function PasswordToggle() {
+interface PasswordToggleProps {
+  registration: UseFormRegisterReturn;
+  error?: string;
+}
+
+export default function PasswordToggle({
+  registration,
+  error,
+}: PasswordToggleProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   return (
@@ -15,6 +24,7 @@ export default function PasswordToggle() {
           className="w-full bg-transparent border-0 px-3 py-2 text-foreground placeholder:text-muted focus:outline-none focus:ring-0 "
           type={isVisible ? "text" : "password"}
           placeholder={isVisible ? "OneMustImagine1913" : "******************"}
+          {...registration}
         />
         <InputGroup.Suffix className="pr-2 pl-0">
           <Button
@@ -33,6 +43,7 @@ export default function PasswordToggle() {
           </Button>
         </InputGroup.Suffix>
       </InputGroup>
+      {error && <span className="text-accent text-sm">{error}</span>}
     </TextField>
   );
 }

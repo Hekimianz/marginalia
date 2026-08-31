@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import { ThemedImage } from "./themed-image";
+import { ThemedImage } from "../themed-image";
 import { useState } from "react";
-import NavbarMobileMenu from "./navbar-menu";
+import NavbarMobileMenu from "./navbar-mobile";
 import NavbarDesktop from "./navbar-desktop";
 
 export default function Navbar() {

@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
@@ -18,13 +22,16 @@ export class UsersService {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
     try {
       return await this.usersRepository.create(
+        createUserDto.firstName,
+        createUserDto.lastName,
+        createUserDto.username,
         createUserDto.email,
         hashedPassword,
       );
     } catch (error) {
       if (
         error instanceof QueryFailedError &&
-        (error as any).code === '23505'
+        (error as unknown as { code?: string }).code === '23505'
       ) {
         throw new ConflictException('Email is already in use');
       }
@@ -38,5 +45,16 @@ export class UsersService {
 
   async findById(id: string): Promise<User | null> {
     return await this.usersRepository.findById(id);
+  }
+
+  async changeAvatar(id: string, url: string): Promise<User> {
+    await this.validateUserById(id);
+    return await this.usersRepository.changeAvatar(id, url);
+  }
+
+  async validateUserById(id: string): Promise<User> {
+    const user = await this.findById(id);
+    if (!user) throw new NotFoundException('No user found with given id');
+    return user;
   }
 }

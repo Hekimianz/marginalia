@@ -7,7 +7,19 @@ export class User {
   id!: string;
 
   @Column({ unique: true })
+  username!: string;
+
+  @Column({ unique: true })
   email!: string;
+
+  @Column()
+  firstName!: string;
+
+  @Column()
+  lastName!: string;
+
+  @Column({ nullable: true, type: 'varchar' })
+  avatar?: string | null;
 
   @Exclude()
   @Column({ select: false })

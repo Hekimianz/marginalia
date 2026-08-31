@@ -1,6 +1,8 @@
 Tasks:
-   
+    ☐ Setup Cloudinary for avatars
+    ✔ Add user avatar feature @done(26-08-31 10:39)
 Archive:
+ ✔ Set up CORS for local dev work @started(26-08-30 14:02) @done(26-08-30 14:07) @lasted(5m10s)
  ✔ Create single find method for Reading Sessions @done(26-08-22 12:19)
  ✔ Create single find method for Books @started(26-08-22 12:13) @done(26-08-22 12:15) @lasted(2m57s)
  ✔ Fix: Updates should only work on own users sessions @started(26-08-22 12:19) @done(26-08-22 12:22) @lasted(3m45s)

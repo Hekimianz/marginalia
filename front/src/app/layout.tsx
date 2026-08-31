@@ -3,6 +3,7 @@ import { Inter, Fraunces } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
+import { AuthProvider } from "./lib/auth-context";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full bg-backgreound font-sans transition-bg">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+          <AuthProvider>{children}</AuthProvider>
           <footer className="mx-auto flex justify-between text-sm md:text-sm tracking-wide font-muted font-[300] px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] max-w-3xl">
             <span>Marginalia</span>
             <span>

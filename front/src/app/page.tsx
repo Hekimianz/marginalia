@@ -1,9 +1,9 @@
 import { Button } from "@heroui/react";
-import Navbar from "../components/navbar";
+import Navbar from "../components/nav/navbar";
 import { ArrowRight } from "@gravity-ui/icons";
-import FaqAccordion from "../components/faq-accordion";
-import Reveal from "../components/reveal";
-import RevealLine from "../components/reveal-line";
+import FaqAccordion from "../components/landing/faq-accordion";
+import Reveal from "../components/landing/reveal";
+import RevealLine from "../components/landing/reveal-line";
 import Link from "next/link";
 
 export default function Home() {

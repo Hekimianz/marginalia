@@ -18,6 +18,7 @@ import { BooksModule } from './books/books.module';
         JWT_SECRET: Joi.string().required(),
         JWT_EXPIRES_IN: Joi.string().default('15m'),
         REFRESH_EXPIRES_MS: Joi.number().default(604800000),
+        FRONTEND_URL: Joi.string().required(),
       }),
     }),
     TypeOrmModule.forRootAsync({
