@@ -3,6 +3,8 @@ import { Inter, Fraunces } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
+import { AuthProvider } from "./lib/auth-context";
+import Navbar from "../components/nav/navbar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,19 +38,31 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full bg-backgreound font-sans transition-bg">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-          <footer className="mx-auto flex justify-between text-sm md:text-sm tracking-wide font-muted font-[300] px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] max-w-3xl">
-            <span>Marginalia</span>
-            <span>
-              Built with love by{" "}
-              <Link
-                className="hover:text-accent transition-all"
-                target="_blank"
-                href="https://github.com/Hekimianz"
-              >
-                Aram Hekimian
-              </Link>
-            </span>
+          <AuthProvider>
+            <Navbar />
+            {children}
+          </AuthProvider>
+          <footer className="w-full border-t border-border px-4 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] md:px-8 md:py-8 lg:px-16">
+            <div className="flex flex-col gap-3 text-start text-xs tracking-wide text-muted sm:flex-row sm:items-end sm:justify-between md:text-sm">
+              <div className="flex flex-col gap-1">
+                <span className="font-fraunces text-xl tracking-normal text-foreground md:text-2xl">
+                  marginalia<span className="text-accent">.</span>
+                </span>
+                <span>Notes in the margins, worth sharing.</span>
+              </div>
+
+              <span className="font-light sm:text-right">
+                Built with love by{" "}
+                <Link
+                  className="text-foreground underline decoration-border underline-offset-4 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
+                  target="_blank"
+                  rel="noreferrer"
+                  href="https://github.com/Hekimianz"
+                >
+                  Aram Hekimian
+                </Link>
+              </span>
+            </div>
           </footer>
         </ThemeProvider>
       </body>

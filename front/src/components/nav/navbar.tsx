@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import { ThemedImage } from "./themed-image";
+import { ThemedImage } from "../themed-image";
 import { useState } from "react";
-import NavbarMobileMenu from "./navbar-menu";
+import NavbarMobileMenu from "./navbar-mobile";
 import NavbarDesktop from "./navbar-desktop";
 
 export default function Navbar() {
@@ -15,11 +15,11 @@ export default function Navbar() {
           <ThemedImage
             lightSrc="/watermark-light.svg"
             darkSrc="/watermark-dark.svg"
-            width={190}
-            height={30}
+            width={140}
+            height={35}
             alt="logo"
             loading="eager"
-            className="w-[160px] md:w-[210px] lg:w-[240px] h-auto"
+            className="h-auto w-[107px] md:w-[140px] lg:w-[160px]"
           />
         </Link>
         {/* Mobile Menu Button */}

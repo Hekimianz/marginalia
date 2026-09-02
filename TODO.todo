@@ -1,0 +1,13 @@
+✔ Create register form component @done(26-09-01 10:31)
+✔ Hook up React Form Hook to register form @done(26-09-01 10:31)
+✔ Hook up register form to api endpoint register @done(26-09-01 10:31)
+✔ Set up cloudinary @done(26-09-02 11:36)
+✔ Create user info page (settings: change profile pic, logout) @done(26-09-02 11:36)
+✔ Add a branded loading state while auth-dependent pages determine which content to show @done(26-09-02 11:36)
+☐ Investigate Google Oauth
+☐ Start work on showing a diff / based on auth status
+☐ Automatically refresh expired access tokens on the client
+☐ Implement account deletion
+☐ Implement profile modifications (first name and last name)
+☐ Add Route protection for /login and /register (UI)
+

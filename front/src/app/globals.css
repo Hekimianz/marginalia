@@ -73,3 +73,29 @@ body {
 .font-inter {
   font-family: var(--font-inter), serif;
 }
+
+@keyframes margin-sweep {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(300%);
+  }
+}
+
+.animate-margin-sweep {
+  animation: margin-sweep 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-margin-sweep {
+    animation: none;
+    transform: none;
+  }
+}

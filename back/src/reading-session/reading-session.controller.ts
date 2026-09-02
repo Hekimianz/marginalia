@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -44,7 +45,7 @@ export class ReadingSessionController {
     return await this.readingSessionsService.validateSessionById(id);
   }
 
-  @Post('update/:id')
+  @Patch('/:id')
   @UseGuards(JwtAuthGuard)
   async update(
     @Param('id', new ParseUUIDPipe()) id: string,
