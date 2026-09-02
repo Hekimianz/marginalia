@@ -1,5 +1,4 @@
 import { Button } from "@heroui/react";
-import Navbar from "../components/nav/navbar";
 import { ArrowRight } from "@gravity-ui/icons";
 import FaqAccordion from "../components/landing/faq-accordion";
 import Reveal from "../components/landing/reveal";
@@ -9,7 +8,6 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="flex flex-col items-center text-center text-foreground min-h-screen ">
-      <Navbar />
       <section className="border-b-3 border-border w-full flex flex-col gap-4 p-4 pb-8 md:p-8 justify-start md:px-16 ">
         <Reveal>
           <div className="border-border border-b">

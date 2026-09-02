@@ -1,8 +1,15 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
 import type { User, AuthContextValue } from "./types";
-import { apiFetch, logout as apiLogout, login as apiLogin } from "./api";
+import {
+  apiFetch,
+  logout as apiLogout,
+  login as apiLogin,
+  getAvatarSig,
+  changeAvatarUrl,
+} from "./api";
 import { paths } from "./paths";
+import { postToCloudinary } from "./cloudinary";
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
@@ -11,9 +18,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const refreshUser = () => {
-    return apiFetch(paths.me)
-      .then(setUser)
-      .catch(() => localStorage.removeItem("access_token"))
+    const token = localStorage.getItem("access_token");
+    const userRequest = token ? apiFetch(paths.me) : Promise.resolve(null);
+    return userRequest
+      .then((result) => setUser(result))
+      .catch(() => {
+        localStorage.removeItem("access_token");
+        setUser(null);
+      })
       .finally(() => setLoading(false));
   };
 
@@ -37,8 +49,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const updateAvatar = async (file: File): Promise<void> => {
+    const signature = await getAvatarSig();
+    const upload = await postToCloudinary(file, signature);
+    const updatedUser = await changeAvatarUrl(upload.secure_url);
+    setUser(updatedUser);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, logout, login }}>
+    <AuthContext.Provider
+      value={{ user, loading, logout, login, updateAvatar }}
+    >
       {children}
     </AuthContext.Provider>
   );

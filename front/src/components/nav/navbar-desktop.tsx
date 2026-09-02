@@ -2,9 +2,10 @@ import { Button, Avatar } from "@heroui/react";
 import Link from "next/link";
 import ThemeSwitcher from "@/src/components/theme-switcher";
 import { useAuth } from "@/src/app/lib/auth-context";
+import { redirect } from "next/navigation";
 
 export default function NavbarDesktop() {
-  const { user, loading, logout } = useAuth();
+  const { user, loading } = useAuth();
   console.log(user);
   return (
     <div className="hidden md:flex items-center">
@@ -44,7 +45,7 @@ export default function NavbarDesktop() {
           <>
             <Avatar
               className="rounded-xs border-2 border-border cursor-pointer"
-              onClick={logout}
+              onClick={() => redirect("/settings")}
             >
               <Avatar.Image
                 src={user.avatar ?? undefined}

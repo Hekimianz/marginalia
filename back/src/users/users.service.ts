@@ -8,10 +8,14 @@ import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { QueryFailedError } from 'typeorm';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    private readonly usersRepository: UsersRepository,
+    private readonly cloudinaryService: CloudinaryService,
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const userExists = await this.usersRepository.findByEmail(
@@ -50,6 +54,10 @@ export class UsersService {
   async changeAvatar(id: string, url: string): Promise<User> {
     await this.validateUserById(id);
     return await this.usersRepository.changeAvatar(id, url);
+  }
+
+  getAvatarSignature(userId: string) {
+    return this.cloudinaryService.generateAvatarUploadSignature(userId);
   }
 
   async validateUserById(id: string): Promise<User> {

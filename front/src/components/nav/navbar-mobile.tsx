@@ -47,15 +47,17 @@ export default function NavbarMobileMenu({
           </>
         ) : (
           <>
-            <Avatar className="rounded-xs border-border border-2 " size="lg">
-              <Avatar.Image
-                src={user.avatar ?? undefined}
-                alt={user.username}
-              />
-              <Avatar.Fallback className="bg-background text-accent hover:bg-card">
-                {user.firstName[0] + user.lastName[0]}
-              </Avatar.Fallback>
-            </Avatar>
+            <Link href="/settings" onClick={onNavigate}>
+              <Avatar className="rounded-xs border-border border-2 " size="lg">
+                <Avatar.Image
+                  src={user.avatar ?? undefined}
+                  alt={user.username}
+                />
+                <Avatar.Fallback className="bg-background text-accent hover:bg-card">
+                  {user.firstName[0] + user.lastName[0]}
+                </Avatar.Fallback>
+              </Avatar>
+            </Link>
           </>
         )}
         <ThemeSwitcher className="size-11 shrink-0" />

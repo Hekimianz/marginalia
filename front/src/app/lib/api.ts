@@ -1,4 +1,5 @@
 import { paths, PathValue } from "./paths";
+import { User } from "./types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -56,5 +57,16 @@ export async function logout(refresh_token: string) {
   await apiFetch(paths.logout, {
     method: "POST",
     body: JSON.stringify({ refresh_token }),
+  });
+}
+
+export async function getAvatarSig() {
+  return await apiFetch(paths.getAvatarSig);
+}
+
+export async function changeAvatarUrl(url: string): Promise<User> {
+  return await apiFetch(paths.avatar, {
+    method: "PATCH",
+    body: JSON.stringify({ url }),
   });
 }

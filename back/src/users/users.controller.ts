@@ -1,4 +1,4 @@
-import { Body, Controller, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
@@ -22,5 +22,11 @@ export class UsersController {
     @CurrentUser() user: User,
   ): Promise<User> {
     return await this.usersService.changeAvatar(user.id, changeAvatarDto.url);
+  }
+
+  @Get('/avatar/signature')
+  @UseGuards(JwtAuthGuard)
+  getAvatarSignature(@CurrentUser() user: User) {
+    return this.usersService.getAvatarSignature(user.id);
   }
 }

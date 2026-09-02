@@ -1,4 +1,4 @@
-# CLAUDE.md
+# AGENTS.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
@@ -52,6 +52,7 @@ Each domain lives in its own module under `back/src/<domain>/` (`users`, `auth`,
 - **Entities** (`entities/`) — TypeORM entities. `synchronize: true` is on in `app.module.ts`, so schema changes are picked up automatically from entities in dev — there are no migrations.
 
 Auth (`back/src/auth/`):
+
 - JWT access tokens (short-lived, `JWT_EXPIRES_IN`) via `@nestjs/passport` + `passport-jwt` (`jwt.strategy.ts`, `JwtAuthGuard`).
 - Refresh tokens are opaque random bytes; only a SHA-256 hash is persisted (`RefreshToken` entity via `RefreshTokenRepository`) — never the raw token. Rotation happens on every `/auth/refresh` call: the old token row is deleted and a new one issued.
 - `AuthService.validateUser` compares against a `DUMMY_HASH` when no user is found, so login timing doesn't leak whether an email exists.
@@ -77,14 +78,14 @@ App Router structure under `front/src/app/`; shared UI in `front/src/components/
 The user is using this project to learn, not just to ship, and wants to write most of
 the actual code themselves. Default to teaching mode for every request in this repo,
 not just ones explicitly framed as questions. This mode governs explanation and code
-shown *in the response* — it does not by itself authorize editing files. See "Never
+shown _in the response_ — it does not by itself authorize editing files. See "Never
 implement without explicit confirmation" below for that.
 
 - When asked to implement or fix something, don't jump straight to a diff. First
-  explain the *why*: what's actually going on (the underlying concept — NestJS DI,
+  explain the _why_: what's actually going on (the underlying concept — NestJS DI,
   JWT/refresh-token flow, TypeORM relations, React Hook Form + Zod, whatever's
-  relevant), then the *how* (the approach and the tradeoffs it has over alternatives).
-- Keep the *concept* and the *plan* as two separate, clearly labeled things — don't let
+  relevant), then the _how_ (the approach and the tradeoffs it has over alternatives).
+- Keep the _concept_ and the _plan_ as two separate, clearly labeled things — don't let
   the "how" collapse into a file-by-file checklist standing in for the explanation. The
   concept should be general enough that the user could explain it back or reapply it to
   a different problem (e.g. "signed requests hash params server-side so a secret never
@@ -119,7 +120,7 @@ implement without explicit confirmation" below for that.
 The user drives most hands-on implementation themselves and wants Claude mainly for
 explanation, review, and analysis — not unrequested edits.
 
-- Confirming a *direction* ("yeah let's do the signed version," "sounds good," "that
+- Confirming a _direction_ ("yeah let's do the signed version," "sounds good," "that
   one") is not authorization to start editing files, installing packages, or running
   anything beyond read-only commands. It confirms the plan, not the execution.
 - Before using Edit/Write/NotebookEdit, or any command that changes files, installs

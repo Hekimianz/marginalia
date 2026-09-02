@@ -12,4 +12,13 @@ export interface AuthContextValue {
   loading: boolean;
   logout: () => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
+  updateAvatar: (file: File) => Promise<void>;
+}
+
+export interface CloudinarySignature {
+  signature: string;
+  timestamp: number;
+  folder: string;
+  apiKey: string;
+  cloudName: string;
 }
