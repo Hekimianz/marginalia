@@ -4,11 +4,11 @@
 ✔ Set up cloudinary @done(26-09-02 11:36)
 ✔ Create user info page (settings: change profile pic, logout) @done(26-09-02 11:36)
 ✔ Add a branded loading state while auth-dependent pages determine which content to show @done(26-09-02 11:36)
-☐ Implement account deletion
-☐ Implement profile modifications (first name and last name)
+✔ Implement account deletion @done(26-09-03 10:18)
 ✔ Host backend @done(26-09-03 08:48)
 ✔ Host a db @done(26-09-03 08:48)
 ✔ Update env vars for vercel @done(26-09-03 08:48)
+✔ Implement profile modifications (first name and last name) @done(26-09-03 11:48)
 ☐ Automatically refresh expired access tokens on the client
 ☐ Centralize 401/invalid-session handling (clear tokens + redirect to /login on any authenticated request failure, not just the initial /me load — e.g. an account deleted from another device)
 ☐ Start work on showing a diff / based on auth status

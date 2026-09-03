@@ -4,15 +4,22 @@ import { User } from "./types";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function apiFetch(path: PathValue, options: RequestInit = {}) {
+  let res: Response;
   const token = localStorage.getItem("access_token");
-  const res = await fetch(`${API_URL}${path}`, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...options.headers,
-    },
-  });
+  try {
+    res = await fetch(`${API_URL}${path}`, {
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options.headers,
+      },
+    });
+  } catch {
+    throw new Error(
+      "We couldn’t connect to Marginalia. Check your connection and try again.",
+    );
+  }
   if (!res.ok) {
     const errorBody = await res.json();
     throw new Error(errorBody.message);
@@ -74,5 +81,15 @@ export async function changeAvatarUrl(url: string): Promise<User> {
 export async function deleteAccount() {
   await apiFetch(paths.deleteAccount, {
     method: "PATCH",
+  });
+}
+
+export async function changeNames(body: {
+  firstName?: string;
+  lastName?: string;
+}) {
+  return await apiFetch(paths.changeNames, {
+    method: "PATCH",
+    body: JSON.stringify(body),
   });
 }
