@@ -5,6 +5,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { User } from './entities/user.entity';
 import { ChangeAvatarDto } from './dtos/change-avatar.dto';
+import { ModifyNamesDto } from './dtos/modify-names.dto';
 
 @Controller('users')
 export class UsersController {
@@ -34,5 +35,11 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   async deleteAccount(@CurrentUser() user: User) {
     return await this.usersService.deleteAccount(user);
+  }
+
+  @Patch('/edit')
+  @UseGuards(JwtAuthGuard)
+  async changeNames(@CurrentUser() user: User, @Body() dto: ModifyNamesDto) {
+    return await this.usersService.changeNames(user.id, dto);
   }
 }

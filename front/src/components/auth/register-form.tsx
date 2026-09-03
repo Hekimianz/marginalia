@@ -130,13 +130,14 @@ export default function RegisterForm() {
         registration={form.register("password")}
         error={form.formState.errors.password?.message}
       />
-      {error && <span className="text-accent text-sm">{error}</span>}
       <Button
         type="submit"
+        isDisabled={form.formState.isSubmitting}
         className="bg-accent rounded-xs w-full justify-start py-6 hover:brightness-90 transition-all cursor-pointer"
       >
-        Create account
+        {form.formState.isSubmitting ? "Creating account..." : "Create account"}
       </Button>
+      {error && <span className="text-accent text-sm">{error}</span>}
     </form>
   );
 }

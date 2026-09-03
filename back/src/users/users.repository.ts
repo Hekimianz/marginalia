@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { ModifyNamesDto } from './dtos/modify-names.dto';
 
 @Injectable()
 export class UsersRepository {
@@ -48,5 +49,10 @@ export class UsersRepository {
       isDeleted: true,
     });
     await this.repo.save(deletedUser!);
+  }
+
+  async changeNames(id: string, dto: ModifyNamesDto): Promise<User> {
+    const user = await this.repo.preload({ id, ...dto });
+    return await this.repo.save(user!);
   }
 }

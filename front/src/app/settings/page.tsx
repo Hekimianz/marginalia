@@ -12,9 +12,15 @@ import { useState } from "react";
 const MAX_AVATAR_SIZE = 5 * 1024 * 1024;
 const ACCEPTED_AVATAR_TYPES = ["image/jpeg", "image/png"];
 export default function Settings() {
-  const { user, loading, updateAvatar, logout, deleteAccount } = useAuth();
-  const [error, setError] = useState<string | null>(null);
+  const { user, loading, updateAvatar, logout, deleteAccount, updateNames } =
+    useAuth();
+  const [error, setError] = useState<{
+    avatar?: string;
+    profile?: string;
+    account?: string;
+  }>({});
   type AvatarFormData = z.infer<typeof avatarSchema>;
+  type EditFormData = z.infer<typeof editSchema>;
   const avatarSchema = z.object({
     avatar: z
       .custom<FileList>(
@@ -36,6 +42,19 @@ export default function Settings() {
   const avatarForm = useForm<AvatarFormData>({
     resolver: zodResolver(avatarSchema),
   });
+  const editSchema = z.object({
+    firstName: z
+      .string()
+      .min(4, "Must be at least 4 characters long")
+      .max(20, "Must be 20 characters long or less"),
+    lastName: z
+      .string()
+      .min(4, "Must be at least 4 characters long")
+      .max(20, "Must be 20 characters long or less"),
+  });
+  const editForm = useForm<EditFormData>({
+    resolver: zodResolver(editSchema),
+  });
 
   if (loading) return <Loader message="Finding your place..." />;
   if (!loading && !user) {
@@ -46,9 +65,24 @@ export default function Settings() {
     try {
       await updateAvatar(data.avatar[0]);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Avatar upload failed");
+      setError((current) => ({
+        ...current,
+        avatar: err instanceof Error ? err.message : "Avatar upload failed",
+      }));
     } finally {
       avatarForm.reset();
+    }
+  };
+
+  const handleEdit = async (data: EditFormData) => {
+    try {
+      await updateNames(data.firstName, data.lastName);
+      editForm.reset();
+    } catch (err) {
+      setError((current) => ({
+        ...current,
+        profile: err instanceof Error ? err.message : "Profile update failed",
+      }));
     }
   };
 
@@ -56,7 +90,10 @@ export default function Settings() {
     try {
       await deleteAccount();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Account deletion failed");
+      setError((current) => ({
+        ...current,
+        account: err instanceof Error ? err.message : "Account deletion failed",
+      }));
     }
   };
   return (
@@ -78,7 +115,7 @@ export default function Settings() {
         <div className="flex w-full flex-col gap-1 md:w-48 lg:w-56">
           <form
             onChange={() => {
-              setError(null);
+              setError({});
               const handler = avatarForm.handleSubmit(submitAvatar);
               handler();
             }}
@@ -113,8 +150,10 @@ export default function Settings() {
                 {avatarForm.formState.errors.avatar?.message}
               </span>
             )}
-            {error && (
-              <span className="text-sm text-accent md:text-base">{error}</span>
+            {error?.avatar && (
+              <span className="text-sm text-accent md:text-base">
+                {error.avatar}
+              </span>
             )}
           </form>
         </div>
@@ -124,29 +163,52 @@ export default function Settings() {
         <h2 className="font-fraunces text-lg font-medium md:w-44 md:shrink-0 md:text-start md:text-xl lg:text-2xl">
           Profile information
         </h2>
-        <form className="flex w-full max-w-200 flex-col items-center justify-center gap-4">
+        <form
+          className="flex w-full max-w-200 flex-col items-center justify-center gap-4"
+          onSubmit={editForm.handleSubmit(handleEdit)}
+        >
           <div className="flex flex-col w-full items-start gap-2">
             <Label className="text-sm md:text-base">First name</Label>
             <Input
+              {...editForm.register("firstName")}
               className="w-full rounded-xs border-2 border-border bg-background text-base text-foreground shadow-none md:text-lg"
-              value={user!.firstName}
+              defaultValue={user!.firstName}
             />
+            {editForm.formState.errors.firstName?.message && (
+              <span className="text-sm text-accent md:text-base">
+                {editForm.formState.errors.firstName?.message}
+              </span>
+            )}
           </div>
 
           <div className="flex flex-col w-full items-start gap-2">
             <Label className="text-sm md:text-base">Last name</Label>
             <Input
+              {...editForm.register("lastName")}
               className="w-full rounded-xs border-2 border-border bg-background text-base text-foreground shadow-none md:text-lg"
-              value={user!.lastName}
+              defaultValue={user!.lastName}
             />
+            {editForm.formState.errors.lastName?.message && (
+              <span className="text-sm text-accent md:text-base">
+                {editForm.formState.errors.lastName?.message}
+              </span>
+            )}
           </div>
 
           <Button
             type="submit"
+            isDisabled={editForm.formState.isSubmitting}
             className="w-full rounded-xs border-2 border-accent bg-transparent text-sm text-accent transition-all hover:bg-accent hover:text-background md:text-base lg:text-lg"
           >
-            Save changes
+            {editForm.formState.isSubmitting
+              ? "Saving changes..."
+              : "Save changes"}
           </Button>
+          {error?.profile && (
+            <span className="text-sm text-accent md:text-base">
+              {error.profile}
+            </span>
+          )}
         </form>
       </section>
 
@@ -170,6 +232,11 @@ export default function Settings() {
             Delete account
           </Button>
         </div>
+        {error?.account && (
+          <span className="text-sm text-accent md:text-base">
+            {error.account}
+          </span>
+        )}
       </section>
     </div>
   );

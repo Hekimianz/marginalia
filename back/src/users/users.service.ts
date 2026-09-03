@@ -10,6 +10,7 @@ import { QueryFailedError } from 'typeorm';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { RefreshTokenRepository } from 'src/refresh-token/refreshToken.repository';
+import { ModifyNamesDto } from './dtos/modify-names.dto';
 
 @Injectable()
 export class UsersService {
@@ -72,5 +73,9 @@ export class UsersService {
     if (user.isDeleted) return;
     await this.usersRepository.deleteAccount(user);
     await this.refreshTokenRepo.deleteAllForUser(user.id);
+  }
+
+  async changeNames(id: string, dto: ModifyNamesDto): Promise<User> {
+    return await this.usersRepository.changeNames(id, dto);
   }
 }
