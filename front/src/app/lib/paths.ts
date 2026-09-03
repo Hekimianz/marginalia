@@ -5,6 +5,7 @@ export const paths = {
   logout: "/auth/logout",
   getAvatarSig: "/users/avatar/signature",
   avatar: "/users/avatar",
+  deleteAccount: "/users/delete",
 } as const;
 
 export type PathValue = (typeof paths)[keyof typeof paths];

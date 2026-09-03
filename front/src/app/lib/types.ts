@@ -13,6 +13,7 @@ export interface AuthContextValue {
   logout: () => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   updateAvatar: (file: File) => Promise<void>;
+  deleteAccount: () => Promise<void>;
 }
 
 export interface CloudinarySignature {

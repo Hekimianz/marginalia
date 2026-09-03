@@ -12,7 +12,7 @@ export class UsersRepository {
   async findByEmail(email: string): Promise<User | null> {
     return await this.repo.findOne({
       where: { email },
-      select: ['email', 'password', 'id'],
+      select: ['email', 'password', 'id', 'isDeleted'],
     });
   }
 
@@ -40,5 +40,13 @@ export class UsersRepository {
   async changeAvatar(id: string, url: string): Promise<User> {
     const user = await this.repo.preload({ id, avatar: url });
     return await this.repo.save(user!);
+  }
+
+  async deleteAccount(user: User) {
+    const deletedUser = await this.repo.preload({
+      id: user.id,
+      isDeleted: true,
+    });
+    await this.repo.save(deletedUser!);
   }
 }

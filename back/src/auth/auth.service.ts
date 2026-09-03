@@ -1,12 +1,15 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { User } from 'src/users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { RefreshTokenRepository } from './refreshToken.repository';
+import { RefreshTokenRepository } from '../refresh-token/refreshToken.repository';
 import { createHash, randomBytes } from 'crypto';
-import { RefreshToken } from './entities/refresh-token.entity';
 import { LoginUserDto } from './dtos/login-user.dto';
 import { RefreshTokenDto } from './dtos/refresh-token.dto';
 
@@ -37,6 +40,10 @@ export class AuthService {
   async login(
     user: User,
   ): Promise<{ access_token: string; refresh_token: string }> {
+    if (user.isDeleted) {
+      console.log('DELETED USER');
+      throw new NotFoundException('Invalid credentials');
+    }
     const payload = { sub: user.id };
     const access_token = await this.jwtService.signAsync(payload);
     const refresh_token = await this.createRefreshToken(user);
@@ -61,6 +68,8 @@ export class AuthService {
       .update(refreshTokenDto.refresh_token)
       .digest('hex');
     const foundToken = await this.refreshTokenRepo.findByHash(hashedToken);
+    if (foundToken?.user.isDeleted)
+      throw new UnauthorizedException('User not found');
     if (!foundToken) throw new UnauthorizedException('Invalid token');
     if (foundToken.expiresAt < new Date()) {
       await this.refreshTokenRepo.delete(foundToken);
