@@ -70,3 +70,9 @@ export async function changeAvatarUrl(url: string): Promise<User> {
     body: JSON.stringify({ url }),
   });
 }
+
+export async function deleteAccount() {
+  await apiFetch(paths.deleteAccount, {
+    method: "PATCH",
+  });
+}

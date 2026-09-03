@@ -6,9 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import type { StringValue } from 'ms';
 import { JwtStrategy } from './jwt.strategy';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { RefreshToken } from './entities/refresh-token.entity';
-import { RefreshTokenRepository } from './refreshToken.repository';
+import { RefreshTokenModule } from 'src/refresh-token/refresh-token.module';
 
 @Module({
   imports: [
@@ -21,10 +19,10 @@ import { RefreshTokenRepository } from './refreshToken.repository';
         },
       }),
     }),
-    TypeOrmModule.forFeature([RefreshToken]),
+    RefreshTokenModule,
     UsersModule,
   ],
-  providers: [AuthService, JwtStrategy, RefreshTokenRepository],
+  providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}

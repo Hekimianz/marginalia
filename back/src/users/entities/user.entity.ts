@@ -21,6 +21,9 @@ export class User {
   @Column({ nullable: true, type: 'varchar' })
   avatar?: string | null;
 
+  @Column({ default: false })
+  isDeleted!: boolean;
+
   @Exclude()
   @Column({ select: false })
   password!: string;

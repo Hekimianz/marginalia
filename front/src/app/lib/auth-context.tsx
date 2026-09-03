@@ -5,6 +5,7 @@ import {
   apiFetch,
   logout as apiLogout,
   login as apiLogin,
+  deleteAccount as apiDeleteAccount,
   getAvatarSig,
   changeAvatarUrl,
 } from "./api";
@@ -49,6 +50,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const deleteAccount = async () => {
+    await apiDeleteAccount();
+    await logout();
+  };
+
   const updateAvatar = async (file: File): Promise<void> => {
     const signature = await getAvatarSig();
     const upload = await postToCloudinary(file, signature);
@@ -58,7 +64,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, logout, login, updateAvatar }}
+      value={{ user, loading, logout, login, updateAvatar, deleteAccount }}
     >
       {children}
     </AuthContext.Provider>

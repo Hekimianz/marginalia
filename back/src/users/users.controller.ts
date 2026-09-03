@@ -29,4 +29,10 @@ export class UsersController {
   getAvatarSignature(@CurrentUser() user: User) {
     return this.usersService.getAvatarSignature(user.id);
   }
+
+  @Patch('/delete')
+  @UseGuards(JwtAuthGuard)
+  async deleteAccount(@CurrentUser() user: User) {
+    return await this.usersService.deleteAccount(user);
+  }
 }

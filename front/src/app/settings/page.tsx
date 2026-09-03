@@ -12,7 +12,7 @@ import { useState } from "react";
 const MAX_AVATAR_SIZE = 5 * 1024 * 1024;
 const ACCEPTED_AVATAR_TYPES = ["image/jpeg", "image/png"];
 export default function Settings() {
-  const { user, loading, updateAvatar, logout } = useAuth();
+  const { user, loading, updateAvatar, logout, deleteAccount } = useAuth();
   const [error, setError] = useState<string | null>(null);
   type AvatarFormData = z.infer<typeof avatarSchema>;
   const avatarSchema = z.object({
@@ -52,6 +52,13 @@ export default function Settings() {
     }
   };
 
+  const handleDeletion = async () => {
+    try {
+      await deleteAccount();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Account deletion failed");
+    }
+  };
   return (
     <div className="flex min-h-screen flex-col items-center gap-4 px-4 text-center text-foreground md:px-8 lg:px-16">
       <h1 className="w-full border-b border-border py-4 text-start font-fraunces text-4xl md:py-6 md:text-5xl lg:py-8 lg:text-6xl">
@@ -156,6 +163,7 @@ export default function Settings() {
             Log out
           </Button>
           <Button
+            onClick={handleDeletion}
             type="submit"
             className="w-[45%] rounded-xs border-2 border-accent bg-transparent text-sm text-accent transition-all hover:bg-accent hover:text-background md:text-base lg:text-lg"
           >
