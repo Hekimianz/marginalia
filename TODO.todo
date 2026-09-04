@@ -9,9 +9,9 @@
 ✔ Host a db @done(26-09-03 08:48)
 ✔ Update env vars for vercel @done(26-09-03 08:48)
 ✔ Implement profile modifications (first name and last name) @done(26-09-03 11:48)
-☐ Automatically refresh expired access tokens on the client
-☐ Centralize 401/invalid-session handling (clear tokens + redirect to /login on any authenticated request failure, not just the initial /me load — e.g. an account deleted from another device)
+✔ Automatically refresh expired access tokens on the client @done(26-09-04 13:53)
+✔ Centralize 401/invalid-session handling (clear tokens + redirect to /login on any authenticated request failure, not just the initial /me load — e.g. an account deleted from another device) @done(26-09-04 14:07)
+✔ Add Route protection for /login and /register (UI) @done(26-09-04 14:17)
 ☐ Start work on showing a diff / based on auth status
-☐ Add Route protection for /login and /register (UI)
 ☐ Investigate Google Oauth
 
