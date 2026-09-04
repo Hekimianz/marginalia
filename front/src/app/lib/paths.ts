@@ -1,4 +1,5 @@
 export const paths = {
+  refresh: "/auth/refresh",
   login: "/auth/login",
   register: "/users/register",
   me: "/auth/me",

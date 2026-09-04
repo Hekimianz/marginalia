@@ -82,16 +82,12 @@ export class AuthService {
     return { access_token, refresh_token };
   }
 
-  async logout(user: User, refreshTokenDto: RefreshTokenDto): Promise<void> {
+  async logout(refreshTokenDto: RefreshTokenDto): Promise<void> {
     const hashedToken = createHash('sha256')
       .update(refreshTokenDto.refresh_token)
       .digest('hex');
     const token = await this.refreshTokenRepo.findByHash(hashedToken);
     if (!token) return;
-    if (token.user.id !== user.id)
-      throw new UnauthorizedException(
-        'You are not authorized to do this action',
-      );
     await this.refreshTokenRepo.delete(token);
   }
 }
