@@ -1,5 +1,5 @@
 import { paths, PathValue } from "./paths";
-import { User } from "./types";
+import { ReadingSession, User } from "./types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 let refreshPromise: Promise<void> | null = null;
@@ -151,4 +151,8 @@ export async function changeNames(body: {
     method: "PATCH",
     body: JSON.stringify(body),
   });
+}
+
+export async function getMySessions(): Promise<ReadingSession[]> {
+  return await apiFetch(paths.getSessions);
 }

@@ -16,6 +16,9 @@ export class ReadingSession {
   @Column({ nullable: true, type: 'decimal' })
   rating?: number;
 
+  @Column({ default: 'reading' })
+  status!: string;
+
   @ManyToOne(() => Book)
   book!: Book;
 

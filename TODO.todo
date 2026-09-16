@@ -12,6 +12,7 @@
 ✔ Automatically refresh expired access tokens on the client @done(26-09-04 13:53)
 ✔ Centralize 401/invalid-session handling (clear tokens + redirect to /login on any authenticated request failure, not just the initial /me load — e.g. an account deleted from another device) @done(26-09-04 14:07)
 ✔ Add Route protection for /login and /register (UI) @done(26-09-04 14:17)
-☐ Start work on showing a diff / based on auth status
+✔ Build the authenticated “My Reading” home page. @done(26-09-16 17:17)
+☐ Connect the OpenLibrary API
 ☐ Investigate Google Oauth
 

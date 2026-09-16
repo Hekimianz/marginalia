@@ -21,6 +21,24 @@ import { UpdateReadingSessionDto } from './dtos/update-session.dto';
 export class ReadingSessionController {
   constructor(private readonly readingSessionsService: ReadingSessionService) {}
 
+  @Get()
+  async fetchAll(): Promise<ReadingSession[]> {
+    return await this.readingSessionsService.fetchAll();
+  }
+
+  @Get('/mine')
+  @UseGuards(JwtAuthGuard)
+  async getMine(@CurrentUser() user: User): Promise<ReadingSession[]> {
+    return await this.readingSessionsService.fetchMine(user);
+  }
+
+  @Get('/:id')
+  async findOne(
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ): Promise<ReadingSession> {
+    return await this.readingSessionsService.validateSessionById(id);
+  }
+
   @Post()
   @UseGuards(JwtAuthGuard)
   async createSession(
@@ -31,18 +49,6 @@ export class ReadingSessionController {
       createSessionDto,
       user,
     );
-  }
-
-  @Get()
-  async fetchAll(): Promise<ReadingSession[]> {
-    return await this.readingSessionsService.fetchAll();
-  }
-
-  @Get('/:id')
-  async findOne(
-    @Param('id', new ParseUUIDPipe()) id: string,
-  ): Promise<ReadingSession> {
-    return await this.readingSessionsService.validateSessionById(id);
   }
 
   @Patch('/:id')

@@ -24,3 +24,20 @@ export interface CloudinarySignature {
   apiKey: string;
   cloudName: string;
 }
+
+export interface Book {
+  id: string;
+  title: string;
+  author: string;
+  cover: string | null;
+  bookId: string | null;
+}
+
+export interface ReadingSession {
+  id: string;
+  synthesis: string | null;
+  review: string | null;
+  rating: string | null;
+  status: string;
+  book: Book;
+}
