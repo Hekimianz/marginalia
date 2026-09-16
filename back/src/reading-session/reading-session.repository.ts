@@ -34,6 +34,13 @@ export class ReadingSessionRepository {
     return await this.repo.find({ relations: ['user'] });
   }
 
+  async findMine(user: User): Promise<ReadingSession[]> {
+    return await this.repo.find({
+      where: { user: { id: user.id } },
+      relations: ['book'],
+    });
+  }
+
   async updateById(
     sessionId: string,
     updateReadingSession: UpdateReadingSessionDto,
