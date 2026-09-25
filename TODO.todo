@@ -13,6 +13,44 @@
 ✔ Centralize 401/invalid-session handling (clear tokens + redirect to /login on any authenticated request failure, not just the initial /me load — e.g. an account deleted from another device) @done(26-09-04 14:07)
 ✔ Add Route protection for /login and /register (UI) @done(26-09-04 14:17)
 ✔ Build the authenticated “My Reading” home page. @done(26-09-16 17:17)
-☐ Connect the OpenLibrary API
+☐ Finish the OpenLibrary "Start a book" flow
+  ✔ Rename Book.bookId to openLibraryWorkId @done(26-09-25 09:48)
+  ✔ Make openLibraryWorkId nullable and unique @done(26-09-25 09:49)
+  ✔ Type nullable Book fields as string | null @done(26-09-25 09:49)
+  ✔ Rename local search result bookId to localBookId @done(26-09-25 09:56)
+  ✔ Verify TypeORM applies the development schema change safely @done(26-09-25 09:54)
+  ✔ Create ImportOpenLibraryBookDto @done(26-09-25 10:15)
+  ✔ Validate the external ID, title, author, and optional cover @done(26-09-25 10:15)
+  ✔ Add a repository lookup by openLibraryWorkId @done(26-09-25 10:22)
+  ✔ Add repository support for saving imported book metadata @done(26-09-25 10:40)
+  ✔ Add a BooksService find-or-create import method @done(26-09-25 10:48)
+  ✔ Reuse an existing Book when its openLibraryWorkId already exists @done(26-09-25 10:48)
+  ✔ Add an authenticated POST /books/import endpoint @done(26-09-25 10:52)
+  ✔ Verify importing the same work twice returns the same local Book @done(26-09-25 10:59)
+  ☐ Add local and Open Library search-result types to the frontend
+  ☐ Update the frontend Book type with openLibraryWorkId
+  ☐ Add frontend paths for book search, book import, and session creation
+  ☐ Update apiFetch to support query parameters safely
+  ☐ Add frontend functions to search books, import a book, and create a session
+  ☐ Create the Start Book modal component
+  ☐ Open the modal from the Start a book button
+  ☐ Add a React Hook Form search form with Zod validation
+  ☐ Submit book searches through the Marginalia backend
+  ☐ Display search loading, error, and empty-result states
+  ☐ Render local and Open Library search results
+  ☐ Display a placeholder when a result has no cover
+  ☐ Configure Next Image for covers.openlibrary.org
+  ☐ Handle selection of an existing local book
+  ☐ Import a selected Open Library result and retrieve its local UUID
+  ☐ Create a reading session with the local book UUID
+  ☐ Disable result selection while import or session creation is running
+  ☐ Display import and session-creation errors
+  ☐ Add the created session to dashboard state without refreshing
+  ☐ Close and reset the modal after a successful selection
+  ☐ Manually verify the complete local-book flow
+  ☐ Manually verify the complete Open Library import flow
+  ☐ Verify repeated imports reuse the existing Book
+  ☐ Verify upstream failures display a useful message
+  ☐ Remove temporary console error logging or replace it with Nest Logger
 ☐ Investigate Google Oauth
 

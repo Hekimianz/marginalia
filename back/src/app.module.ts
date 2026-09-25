@@ -24,6 +24,8 @@ import { RefreshTokenModule } from './refresh-token/refresh-token.module';
         CLOUDINARY_CLOUD_NAME: Joi.string().required(),
         CLOUDINARY_API_KEY: Joi.string().required(),
         CLOUDINARY_API_SECRET: Joi.string().required(),
+        OPEN_LIBRARY_API_URL: Joi.string().required(),
+        OPEN_LIBRARY_USER_AGENT: Joi.string().required(),
       }),
     }),
     TypeOrmModule.forRootAsync({
