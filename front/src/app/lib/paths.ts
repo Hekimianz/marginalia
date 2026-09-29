@@ -9,6 +9,9 @@ export const paths = {
   deleteAccount: "/users/delete",
   changeNames: "/users/edit",
   getSessions: "/reading-session/mine",
+  searchBooks: "/books/search",
+  importBook: "/books/import",
+  createReadingSession: "/reading-session",
 } as const;
 
 export type PathValue = (typeof paths)[keyof typeof paths];

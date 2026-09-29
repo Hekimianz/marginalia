@@ -30,7 +30,7 @@ export interface Book {
   title: string;
   author: string;
   cover: string | null;
-  bookId: string | null;
+  openLibraryWorkId: string | null;
 }
 
 export interface ReadingSession {
@@ -41,3 +41,21 @@ export interface ReadingSession {
   status: string;
   book: Book;
 }
+
+export interface LocalBookResult {
+  localBookId: string;
+  source: "local";
+  title: string;
+  author: string;
+  cover: string | null;
+}
+
+export interface OpenLibraryBookResult {
+  openLibraryWorkId: string;
+  source: "openlibrary";
+  title: string;
+  author: string;
+  cover: string | null;
+}
+
+export type BookSearchResult = LocalBookResult | OpenLibraryBookResult;
