@@ -1,11 +1,12 @@
 import DashboardEmpty from "./dashboard-empty";
 import type { User } from "@/src/app/lib/types";
-import { Button } from "@heroui/react";
+import { Button, Modal, useOverlayState } from "@heroui/react";
 import { Plus } from "@gravity-ui/icons";
 import type { ReadingSession } from "@/src/app/lib/types";
 import { useEffect, useState } from "react";
 import { getMySessions } from "@/src/app/lib/api";
 import DashboardSessions from "./dashboard-sessions";
+import StartBookModal from "./start-book-modal";
 interface DashboardHomeProps {
   user: User;
 }
@@ -18,6 +19,7 @@ function getGreeting() {
 export default function DashboardHome({ user }: DashboardHomeProps) {
   const [sessions, setSessions] = useState<ReadingSession[] | null>(null);
   const [sessionsError, setSessionsError] = useState<string | null>(null);
+  const startBookModal = useOverlayState();
 
   useEffect(() => {
     async function loadSessions() {
@@ -46,12 +48,21 @@ export default function DashboardHome({ user }: DashboardHomeProps) {
               Your reading life, all in one place.
             </p>
           </div>
-          <Button
-            type="button"
-            className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xs bg-accent py-6 text-base transition-all hover:brightness-90 md:w-auto md:min-w-44 md:px-6"
-          >
-            <Plus className="size-5 shrink-0" /> <span>Start a book</span>
-          </Button>
+          <Modal state={startBookModal}>
+            <Button
+              type="button"
+              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xs bg-accent py-6 text-base transition-all hover:brightness-90 md:w-auto md:min-w-44 md:px-6"
+            >
+              <Plus className="size-5 shrink-0" /> <span>Start a book</span>
+            </Button>
+            <StartBookModal
+              onSessionCreated={(session) => {
+                setSessions((curr) =>
+                  curr === null ? [session] : [...curr, session],
+                );
+              }}
+            />
+          </Modal>
         </div>
         <h1 className="w-full pt-4 text-start font-fraunces text-xl font-[500] md:text-2xl">
           Reading now

@@ -35,6 +35,11 @@
   --color-card: var(--dark-surface);
 }
 
+:root,
+.dark {
+  --focus: var(--color-accent);
+}
+
 @theme inline {
   --color-background: var(--color-background);
   --color-foreground: var(--color-foreground);
