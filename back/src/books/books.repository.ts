@@ -29,9 +29,10 @@ export class BooksRepository {
     return await this.repo.findOne({ where: { id } });
   }
 
-  async searchByTitle(query: string): Promise<Book[]> {
+  async searchByTitleOrAuthor(query: string): Promise<Book[]> {
+    const pattern = `%${query.trim()}%`;
     return await this.repo.find({
-      where: { title: ILike(`%${query}%`) },
+      where: [{ title: ILike(pattern) }, { author: ILike(pattern) }],
       take: 10,
     });
   }

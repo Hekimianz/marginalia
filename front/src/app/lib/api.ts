@@ -1,21 +1,35 @@
 import { paths, PathValue } from "./paths";
-import { ReadingSession, User } from "./types";
+import {
+  Book,
+  BookSearchResult,
+  OpenLibraryBookResult,
+  ReadingSession,
+  User,
+} from "./types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 let refreshPromise: Promise<void> | null = null;
 
+interface ApiFetchOptions extends RequestInit {
+  query?: Record<string, string>;
+}
+
 async function sendRequest(
   path: PathValue,
-  options: RequestInit,
+  options: ApiFetchOptions,
   token: string | null,
 ): Promise<Response> {
+  const { query, ...requestOptions } = options;
+  const searchParams = new URLSearchParams(query ?? {});
+  const queryString = searchParams.toString();
+  const url = `${API_URL}${path}${queryString ? `?${queryString}` : ""}`;
   try {
-    return await fetch(`${API_URL}${path}`, {
-      ...options,
+    return await fetch(url, {
+      ...requestOptions,
       headers: {
         "Content-Type": "application/json",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        ...options.headers,
+        ...requestOptions.headers,
       },
     });
   } catch {
@@ -61,7 +75,7 @@ function clearSession() {
   }
 }
 
-export async function apiFetch(path: PathValue, options: RequestInit = {}) {
+export async function apiFetch(path: PathValue, options: ApiFetchOptions = {}) {
   const token = localStorage.getItem("access_token");
   let res = await sendRequest(path, options, token);
   if (res.status === 401 && token) {
@@ -155,4 +169,31 @@ export async function changeNames(body: {
 
 export async function getMySessions(): Promise<ReadingSession[]> {
   return await apiFetch(paths.getSessions);
+}
+
+export async function searchBooks(query: string): Promise<BookSearchResult[]> {
+  return await apiFetch(paths.searchBooks, { query: { q: query } });
+}
+
+export async function importOpenLibraryBook(
+  result: OpenLibraryBookResult,
+): Promise<Book> {
+  return await apiFetch(paths.importBook, {
+    method: "POST",
+    body: JSON.stringify({
+      openLibraryWorkId: result.openLibraryWorkId,
+      title: result.title,
+      author: result.author,
+      cover: result.cover,
+    }),
+  });
+}
+
+export async function createReadingSession(
+  bookId: string,
+): Promise<ReadingSession> {
+  return await apiFetch(paths.createReadingSession, {
+    method: "POST",
+    body: JSON.stringify({ bookId }),
+  });
 }

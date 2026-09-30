@@ -40,17 +40,36 @@ export class BooksService {
   }
 
   async searchBooks(query: string): Promise<BookSearchResult[]> {
-    const localResults = await this.booksRepository.searchByTitle(query);
-    if (localResults.length)
-      return localResults.map<BookSearchResult>((result) => ({
-        source: 'local',
-        localBookId: result.id,
-        title: result.title,
-        author: result.author,
-        cover: result.cover,
-      }));
+    const PAGE_SIZE = 10;
+    const localBooks = await this.booksRepository.searchByTitleOrAuthor(query);
+    const localResults = localBooks.map<LocalBookResult>((book) => ({
+      source: 'local',
+      localBookId: book.id,
+      title: book.title,
+      author: book.author,
+      cover: book.cover,
+    }));
 
-    return await this.openLibraryService.searchBooks(query);
+    if (localResults.length >= PAGE_SIZE) {
+      return localResults.slice(0, PAGE_SIZE);
+    }
+
+    const seenOpenLibraryWorkIds = new Set(
+      localBooks.flatMap((book) =>
+        book.openLibraryWorkId ? [book.openLibraryWorkId] : [],
+      ),
+    );
+    const externalCandidates = await this.openLibraryService.searchBooks(query);
+    const remainingSlots = PAGE_SIZE - localResults.length;
+    const externalResults = externalCandidates
+      .filter((result) => {
+        if (seenOpenLibraryWorkIds.has(result.openLibraryWorkId)) return false;
+        seenOpenLibraryWorkIds.add(result.openLibraryWorkId);
+        return true;
+      })
+      .slice(0, remainingSlots);
+
+    return [...localResults, ...externalResults];
   }
 
   async findOrCreateOpenLibraryBook(
