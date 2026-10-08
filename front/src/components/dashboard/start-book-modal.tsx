@@ -128,8 +128,8 @@ export default function StartBookModal({
                   >
                     Search by title, author, or ISBN
                   </Label>
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
-                    <InputGroup className="h-12 rounded-xs border border-border bg-card shadow-none sm:flex-1">
+                  <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-stretch">
+                    <InputGroup className="h-12 min-w-0 rounded-xs border border-border bg-card shadow-none sm:flex-1">
                       <InputGroup.Prefix className="pl-3 text-muted">
                         <Magnifier aria-hidden="true" className="size-4" />
                       </InputGroup.Prefix>
