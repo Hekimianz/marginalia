@@ -27,11 +27,21 @@ export class ReadingSessionRepository {
   }
 
   async findById(id: string): Promise<ReadingSession | null> {
-    return await this.repo.findOne({ where: { id }, relations: ['user'] });
+    return await this.repo.findOne({
+      where: { id },
+      relations: ['user', 'book'],
+    });
   }
 
   async findAll(): Promise<ReadingSession[]> {
     return await this.repo.find({ relations: ['user'] });
+  }
+
+  async findMine(user: User): Promise<ReadingSession[]> {
+    return await this.repo.find({
+      where: { user: { id: user.id } },
+      relations: ['book'],
+    });
   }
 
   async updateById(

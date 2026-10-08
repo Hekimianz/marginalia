@@ -13,6 +13,8 @@ export interface AuthContextValue {
   logout: () => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   updateAvatar: (file: File) => Promise<void>;
+  deleteAccount: () => Promise<void>;
+  updateNames: (firstName: string, lastName: string) => Promise<void>;
 }
 
 export interface CloudinarySignature {
@@ -22,3 +24,38 @@ export interface CloudinarySignature {
   apiKey: string;
   cloudName: string;
 }
+
+export interface Book {
+  id: string;
+  title: string;
+  author: string;
+  cover: string | null;
+  openLibraryWorkId: string | null;
+}
+
+export interface ReadingSession {
+  id: string;
+  synthesis: string | null;
+  review: string | null;
+  rating: string | null;
+  status: string;
+  book: Book;
+}
+
+export interface LocalBookResult {
+  localBookId: string;
+  source: "local";
+  title: string;
+  author: string;
+  cover: string | null;
+}
+
+export interface OpenLibraryBookResult {
+  openLibraryWorkId: string;
+  source: "openlibrary";
+  title: string;
+  author: string;
+  cover: string | null;
+}
+
+export type BookSearchResult = LocalBookResult | OpenLibraryBookResult;

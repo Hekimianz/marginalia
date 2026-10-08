@@ -9,12 +9,15 @@ import * as bcrypt from 'bcrypt';
 import { QueryFailedError } from 'typeorm';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { RefreshTokenRepository } from 'src/refresh-token/refreshToken.repository';
+import { ModifyNamesDto } from './dtos/modify-names.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly cloudinaryService: CloudinaryService,
+    private readonly refreshTokenRepo: RefreshTokenRepository,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -64,5 +67,15 @@ export class UsersService {
     const user = await this.findById(id);
     if (!user) throw new NotFoundException('No user found with given id');
     return user;
+  }
+
+  async deleteAccount(user: User) {
+    if (user.isDeleted) return;
+    await this.usersRepository.deleteAccount(user);
+    await this.refreshTokenRepo.deleteAllForUser(user.id);
+  }
+
+  async changeNames(id: string, dto: ModifyNamesDto): Promise<User> {
+    return await this.usersRepository.changeNames(id, dto);
   }
 }

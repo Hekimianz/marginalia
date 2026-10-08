@@ -8,6 +8,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ReadingSessionModule } from './reading-session/reading-session.module';
 import { BooksModule } from './books/books.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 
 @Module({
   imports: [
@@ -23,6 +24,8 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
         CLOUDINARY_CLOUD_NAME: Joi.string().required(),
         CLOUDINARY_API_KEY: Joi.string().required(),
         CLOUDINARY_API_SECRET: Joi.string().required(),
+        OPEN_LIBRARY_API_URL: Joi.string().required(),
+        OPEN_LIBRARY_USER_AGENT: Joi.string().required(),
       }),
     }),
     TypeOrmModule.forRootAsync({
@@ -40,6 +43,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
     ReadingSessionModule,
     BooksModule,
     CloudinaryModule,
+    RefreshTokenModule,
   ],
   providers: [
     {

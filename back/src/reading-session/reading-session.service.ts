@@ -42,6 +42,10 @@ export class ReadingSessionService {
     return await this.readingSessionsRepository.findAll();
   }
 
+  async fetchMine(user: User): Promise<ReadingSession[]> {
+    return await this.readingSessionsRepository.findMine(user);
+  }
+
   async update(
     id: string,
     updateReadingSessionDto: UpdateReadingSessionDto,

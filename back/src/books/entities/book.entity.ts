@@ -11,9 +11,9 @@ export class Book {
   @Column()
   author!: string;
 
-  @Column({ default: null, nullable: true })
-  cover!: string;
+  @Column({ default: null, nullable: true, type: 'varchar' })
+  cover!: string | null;
 
-  @Column({ default: null, nullable: true })
-  bookId!: string;
+  @Column({ default: null, nullable: true, unique: true, type: 'varchar' })
+  openLibraryWorkId!: string | null;
 }

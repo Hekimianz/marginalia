@@ -54,13 +54,15 @@ export default function LoginForm() {
         registration={form.register("password")}
         error={form.formState.errors.password?.message}
       />
-      {error && <span className="text-accent text-sm">{error}</span>}
+
       <Button
         type="submit"
+        isDisabled={form.formState.isSubmitting}
         className="bg-accent rounded-xs w-full justify-start py-6 hover:brightness-90 transition-all cursor-pointer"
       >
-        Log in
+        {form.formState.isSubmitting ? "Logging in..." : "Log In"}
       </Button>
+      {error && <span className="text-accent text-sm">{error}</span>}
     </form>
   );
 }

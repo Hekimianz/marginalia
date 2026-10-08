@@ -1,33 +1,36 @@
+import GuestOnly from "@/src/components/auth/guest-only";
 import LoginForm from "@/src/components/auth/login-form";
 import { ArrowLeft } from "@gravity-ui/icons";
 import Link from "next/link";
 
 export default function LoginPage() {
   return (
-    <div className="flex flex-col min-h-screen md:items-center md:justify-center md:bg-background p-0 md:p-6">
-      <section className="flex-1 w-full bg-card p-6 md:flex-none md:max-w-md md:rounded-xs md:border md:border-border ">
-        <h1 className="text-2xl font-fraunces">Welcome back.</h1>
-        <span className="mt-2 block font-light text-muted">
-          Pick up where your notes left off.
-        </span>
-        <LoginForm />
-        <p className="font-light text-muted mt-8">
-          New here?{" "}
-          <Link
-            href="/sign-up"
-            className="text-accent/80 underline hover:text-accent transition-all"
-          >
-            Create an account
-          </Link>
-        </p>
+    <GuestOnly>
+      <div className="flex flex-col min-h-screen md:items-center md:justify-center md:bg-background p-0 md:p-6">
+        <section className="flex-1 w-full bg-card p-6 md:flex-none md:max-w-md md:rounded-xs md:border md:border-border ">
+          <h1 className="text-2xl font-fraunces">Welcome back.</h1>
+          <span className="mt-2 block font-light text-muted">
+            Pick up where your notes left off.
+          </span>
+          <LoginForm />
+          <p className="font-light text-muted mt-8">
+            New here?{" "}
+            <Link
+              href="/sign-up"
+              className="text-accent/80 underline hover:text-accent transition-all"
+            >
+              Create an account
+            </Link>
+          </p>
 
-        <Link
-          href="/"
-          className="inline-flex mt-8 gap-2 items-center text-muted font-light hover:text-foreground w-fit transition-colors cursor-pointer"
-        >
-          <ArrowLeft className="size-4" /> Back home
-        </Link>
-      </section>
-    </div>
+          <Link
+            href="/"
+            className="inline-flex mt-8 gap-2 items-center text-muted font-light hover:text-foreground w-fit transition-colors cursor-pointer"
+          >
+            <ArrowLeft className="size-4" /> Back home
+          </Link>
+        </section>
+      </div>
+    </GuestOnly>
   );
 }

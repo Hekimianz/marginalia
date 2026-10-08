@@ -5,8 +5,10 @@ import {
   apiFetch,
   logout as apiLogout,
   login as apiLogin,
+  deleteAccount as apiDeleteAccount,
   getAvatarSig,
   changeAvatarUrl,
+  changeNames,
 } from "./api";
 import { paths } from "./paths";
 import { postToCloudinary } from "./cloudinary";
@@ -23,7 +25,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return userRequest
       .then((result) => setUser(result))
       .catch(() => {
-        localStorage.removeItem("access_token");
         setUser(null);
       })
       .finally(() => setLoading(false));
@@ -49,6 +50,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const deleteAccount = async () => {
+    await apiDeleteAccount();
+    await logout();
+  };
+
   const updateAvatar = async (file: File): Promise<void> => {
     const signature = await getAvatarSig();
     const upload = await postToCloudinary(file, signature);
@@ -56,9 +62,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(updatedUser);
   };
 
+  const updateNames = async (firstName: string, lastName: string) => {
+    const updatedUser = await changeNames({
+      firstName: firstName[0].toUpperCase() + firstName.slice(1),
+      lastName: lastName[0].toUpperCase() + lastName.slice(1),
+    });
+    setUser(updatedUser);
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, loading, logout, login, updateAvatar }}
+      value={{
+        user,
+        loading,
+        logout,
+        login,
+        updateAvatar,
+        deleteAccount,
+        updateNames,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -1,10 +1,17 @@
 export const paths = {
+  refresh: "/auth/refresh",
   login: "/auth/login",
   register: "/users/register",
   me: "/auth/me",
   logout: "/auth/logout",
   getAvatarSig: "/users/avatar/signature",
   avatar: "/users/avatar",
+  deleteAccount: "/users/delete",
+  changeNames: "/users/edit",
+  getSessions: "/reading-session/mine",
+  searchBooks: "/books/search",
+  importBook: "/books/import",
+  createReadingSession: "/reading-session",
 } as const;
 
 export type PathValue = (typeof paths)[keyof typeof paths];

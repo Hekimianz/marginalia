@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RefreshToken } from './entities/refresh-token.entity';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
@@ -27,5 +26,9 @@ export class RefreshTokenRepository {
 
   async delete(token: RefreshToken): Promise<void> {
     await this.repo.remove(token);
+  }
+
+  async deleteAllForUser(userId: string): Promise<void> {
+    await this.repo.delete({ user: { id: userId } });
   }
 }
