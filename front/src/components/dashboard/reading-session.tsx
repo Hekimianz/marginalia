@@ -12,7 +12,7 @@ export default function ReadingSessionThumb({
   return (
     <article className="group flex min-w-0 overflow-hidden border border-border bg-card text-start transition-colors hover:border-accent">
       <Image
-        src="/book-cover-placeholder-v3.png"
+        src={book.cover || "/book-cover-placeholder-v3.png"}
         alt={book.cover ? `Cover of ${book.title}` : ""}
         width={120}
         height={180}

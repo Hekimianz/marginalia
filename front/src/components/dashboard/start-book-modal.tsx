@@ -1,4 +1,8 @@
-import { searchBooks } from "@/src/app/lib/api";
+import {
+  createReadingSession,
+  importOpenLibraryBook,
+  searchBooks,
+} from "@/src/app/lib/api";
 import { ReadingSession } from "@/src/app/lib/types";
 import { Magnifier, Xmark } from "@gravity-ui/icons";
 import { Button, InputGroup, Label, Modal } from "@heroui/react";
@@ -12,11 +16,21 @@ import { BookResult } from "./book-result";
 interface StartBookModalProps {
   onSessionCreated: (session: ReadingSession) => void;
 }
+
+type SelectionState =
+  | { status: "idle" }
+  | { status: "pending"; key: string }
+  | { status: "error"; key: string; message: string };
+
 export default function StartBookModal({
   onSessionCreated,
 }: StartBookModalProps) {
   const [error, setError] = useState<string | null>(null);
   const [results, setResults] = useState<BookSearchResult[] | null>(null);
+  const [selectionState, setSelectionState] = useState<SelectionState>({
+    status: "idle",
+  });
+
   const searchSchema = z.object({
     query: z
       .string()
@@ -26,7 +40,35 @@ export default function StartBookModal({
   const form = useForm<z.infer<typeof searchSchema>>({
     resolver: zodResolver(searchSchema),
   });
+
   const query = useWatch({ control: form.control, name: "query" });
+  async function handleBookSelect(book: BookSearchResult) {
+    const key = getBookKey(book);
+
+    setSelectionState({ status: "pending", key });
+    let bookId: string;
+    try {
+      if (book.source === "local") {
+        bookId = book.localBookId;
+      } else {
+        const importedBook = await importOpenLibraryBook(book);
+        bookId = importedBook.id;
+      }
+      const session = await createReadingSession(bookId);
+      onSessionCreated(session);
+      form.reset();
+      setSelectionState({ status: "idle" });
+      setResults(null);
+      setError(null);
+    } catch (err) {
+      setSelectionState({
+        status: "error",
+        key,
+        message:
+          err instanceof Error ? err.message : "Could not start reading book",
+      });
+    }
+  }
   const onSubmit = async (data: { query: string }) => {
     setError(null);
     setResults(null);
@@ -37,16 +79,29 @@ export default function StartBookModal({
       setError(err instanceof Error ? err.message : "Search failed");
     }
   };
+
+  function getBookKey(book: BookSearchResult) {
+    return book.source === "local"
+      ? `local:${book.localBookId}`
+      : `openLibrary:${book.openLibraryWorkId}`;
+  }
+  const isSelectionPending = selectionState.status === "pending";
   return (
-    <Modal.Backdrop isDismissable>
+    <Modal.Backdrop
+      isDismissable={!isSelectionPending}
+      isKeyboardDismissDisabled={isSelectionPending}
+    >
       <Modal.Container placement="center" size="lg" scroll="inside">
         <Modal.Dialog
           aria-describedby="start-book-description"
           className="rounded-xs border border-border bg-card shadow-none"
         >
-          {({ close }) => (
+          {() => (
             <>
-              <Modal.CloseTrigger className="rounded-xs bg-transparent text-muted hover:bg-accent/10 hover:text-accent focus-visible:outline-2 focus-visible:outline-accent" />
+              <Modal.CloseTrigger
+                isDisabled={isSelectionPending}
+                className="rounded-xs bg-transparent text-muted hover:bg-accent/10 hover:text-accent focus-visible:outline-2 focus-visible:outline-accent"
+              />
 
               <Modal.Header className="border-b border-border px-5 py-5 sm:px-6 sm:py-6">
                 <Modal.Heading className="font-fraunces text-2xl font-[500] leading-tight sm:text-3xl">
@@ -150,16 +205,27 @@ export default function StartBookModal({
                       </span>
                     </div>
                     <div className="flex w-full flex-col gap-3">
-                      {results.map((book) => (
-                        <BookResult
-                          key={
-                            book.source === "local"
-                              ? book.localBookId
-                              : book.openLibraryWorkId
-                          }
-                          result={book}
-                        />
-                      ))}
+                      {results.map((book) => {
+                        const bookKey = getBookKey(book);
+                        return (
+                          <BookResult
+                            key={bookKey}
+                            result={book}
+                            onSelect={() => handleBookSelect(book)}
+                            isDisabled={selectionState.status === "pending"}
+                            isPending={
+                              selectionState.status === "pending" &&
+                              bookKey === selectionState.key
+                            }
+                            error={
+                              selectionState.status === "error" &&
+                              bookKey === selectionState.key
+                                ? selectionState.message
+                                : null
+                            }
+                          />
+                        );
+                      })}
                     </div>
                   </div>
                 )}

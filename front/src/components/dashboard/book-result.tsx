@@ -7,9 +7,21 @@ import { useState } from "react";
 
 interface BookResultProps {
   result: BookSearchResult;
+  onSelect: (book: BookSearchResult) => void;
+  isDisabled: boolean;
+  isPending: boolean;
+  error: string | null;
 }
-export function BookResult({ result }: BookResultProps) {
+
+export function BookResult({
+  result,
+  onSelect,
+  isDisabled,
+  isPending,
+  error,
+}: BookResultProps) {
   const [isImageLoading, setIsImageLoading] = useState(true);
+
   return (
     <article className="group flex w-full flex-col gap-4 rounded-xs border border-border bg-background p-3 transition-colors hover:border-accent sm:flex-row sm:items-stretch sm:gap-5 sm:p-4">
       <div className="relative aspect-[2/3] w-28 shrink-0 overflow-hidden rounded-xs border border-border bg-card sm:w-24 md:w-28">
@@ -42,9 +54,26 @@ export function BookResult({ result }: BookResultProps) {
         <Button
           type="button"
           className="mt-4 flex w-full cursor-pointer items-center justify-center gap-1 rounded-xs border border-accent/50 bg-card text-center font-medium text-accent shadow-none transition-all hover:border-accent hover:bg-accent hover:text-white sm:mt-auto sm:w-fit sm:min-w-36 sm:self-start"
+          onClick={() => onSelect(result)}
+          isDisabled={isDisabled}
         >
-          Start reading <ChevronRight aria-hidden="true" className="size-4" />
+          {isPending ? (
+            "Fetching book..."
+          ) : (
+            <>
+              Start reading{" "}
+              <ChevronRight aria-hidden="true" className="size-4" />
+            </>
+          )}
         </Button>
+        {error && (
+          <span
+            role="alert"
+            className="rounded-xs border border-accent/30 bg-accent/5 px-3 py-2 text-sm text-accent"
+          >
+            {error}
+          </span>
+        )}
       </div>
     </article>
   );

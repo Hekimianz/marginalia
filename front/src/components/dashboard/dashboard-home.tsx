@@ -56,10 +56,12 @@ export default function DashboardHome({ user }: DashboardHomeProps) {
               <Plus className="size-5 shrink-0" /> <span>Start a book</span>
             </Button>
             <StartBookModal
+              key={startBookModal.isOpen ? "open" : "closed"}
               onSessionCreated={(session) => {
                 setSessions((curr) =>
                   curr === null ? [session] : [...curr, session],
                 );
+                startBookModal.close();
               }}
             />
           </Modal>

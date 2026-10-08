@@ -37,9 +37,8 @@ export class OpenLibraryService {
           },
         });
         return response;
-      } catch (error) {
+      } catch {
         if (maxAttempts === attempt) {
-          console.error('Open Library fetch failed:', error);
           throw new BadGatewayException('Could not connect to Open Library');
         }
         await new Promise((resolve) => setTimeout(resolve, 500));
