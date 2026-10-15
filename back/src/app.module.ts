@@ -9,6 +9,7 @@ import { ReadingSessionModule } from './reading-session/reading-session.module';
 import { BooksModule } from './books/books.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { RefreshTokenModule } from './refresh-token/refresh-token.module';
+import { PostModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { RefreshTokenModule } from './refresh-token/refresh-token.module';
     AuthModule,
     ReadingSessionModule,
     BooksModule,
+    PostModule,
     CloudinaryModule,
     RefreshTokenModule,
   ],

@@ -10,5 +10,6 @@ import { BooksModule } from 'src/books/books.module';
   imports: [TypeOrmModule.forFeature([ReadingSession]), BooksModule],
   controllers: [ReadingSessionController],
   providers: [ReadingSessionService, ReadingSessionRepository],
+  exports: [ReadingSessionService],
 })
 export class ReadingSessionModule {}
