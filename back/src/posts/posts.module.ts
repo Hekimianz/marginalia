@@ -10,5 +10,6 @@ import { ReadingSessionModule } from 'src/reading-session/reading-session.module
   imports: [TypeOrmModule.forFeature([Post]), ReadingSessionModule],
   controllers: [PostController],
   providers: [PostsService, PostsRepository],
+  exports: [PostsService],
 })
 export class PostModule {}

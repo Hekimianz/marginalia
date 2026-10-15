@@ -6,8 +6,9 @@ import {
 import { PostsRepository } from './posts.repository';
 import { CreatePostDto } from './dtos/create-post.dto';
 import { User } from 'src/users/entities/user.entity';
-import { Post } from './entities/post.entity';
 import { ReadingSessionService } from 'src/reading-session/reading-session.service';
+import { toPostResponse } from './post-response.mapper';
+import { PostResponseDto } from './dtos/post-response.dto';
 
 @Injectable()
 export class PostsService {
@@ -20,7 +21,7 @@ export class PostsService {
     dto: CreatePostDto,
     user: User,
     sessionId: string,
-  ): Promise<Post> {
+  ): Promise<PostResponseDto> {
     const session =
       await this.readingSessionService.validateSessionById(sessionId);
     if (session.user.id !== user.id) {
@@ -28,12 +29,19 @@ export class PostsService {
         'You are not authorized to do this action',
       );
     }
-    return this.repo.createPost(dto, user, session);
+    const post = await this.repo.createPost(dto, user, session);
+    return toPostResponse(post);
   }
 
-  async fetchPosts(sessionId: string): Promise<Post[]> {
+  async fetchPosts(sessionId: string): Promise<PostResponseDto[]> {
     const session =
       await this.readingSessionService.validateSessionById(sessionId);
-    return await this.repo.fetchPosts(session);
+    const posts = await this.repo.fetchPosts(session);
+    return posts.map(toPostResponse);
+  }
+
+  async validateById(postId: string): Promise<void> {
+    const post = await this.repo.fetchPostById(postId);
+    if (!post) throw new NotFoundException('No post found');
   }
 }

@@ -2,6 +2,12 @@ import { Book } from 'src/books/entities/book.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
+export enum ReadingSessionStatus {
+  READING = 'reading',
+  FINISHED = 'finished',
+  DID_NOT_FINISH = 'did_not_finish',
+}
+
 @Entity()
 export class ReadingSession {
   @PrimaryGeneratedColumn('uuid')
@@ -16,8 +22,12 @@ export class ReadingSession {
   @Column({ nullable: true, type: 'decimal' })
   rating?: number;
 
-  @Column({ default: 'reading' })
-  status!: string;
+  @Column({
+    type: 'enum',
+    enum: ReadingSessionStatus,
+    default: ReadingSessionStatus.READING,
+  })
+  status!: ReadingSessionStatus;
 
   @ManyToOne(() => Book)
   book!: Book;

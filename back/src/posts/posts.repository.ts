@@ -29,7 +29,14 @@ export class PostsRepository {
   async fetchPosts(session: ReadingSession): Promise<Post[]> {
     return await this.repo.find({
       where: { readingSession: session },
-      relations: ['author'],
+      relations: { author: true, comments: { author: true } },
+      order: { createdAt: 'ASC' },
+    });
+  }
+
+  async fetchPostById(postId: string): Promise<Post | null> {
+    return await this.repo.findOne({
+      where: { id: postId },
     });
   }
 }
